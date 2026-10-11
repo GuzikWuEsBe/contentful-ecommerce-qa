@@ -1,0 +1,8 @@
+.env
+.env.*
+!*.example
+*private*environment*.json
+*personal*environment*.json
+credentials.json
+.DS_Store
+Thumbs.db

@@ -1,0 +1,216 @@
+{
+  "info": {
+    "name": "Contentful E-commerce QA — Portfolio",
+    "description": "API checks reproducing the manual QA case study. Stage-specific requests must be run at the correct content state. No real API tokens included.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "TC-005 — Get published product",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{deliveryToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://cdn.contentful.com/spaces/{{spaceId}}/environments/{{environmentId}}/entries/{{entryId}}",
+          "protocol": "https",
+          "host": [
+            "cdn",
+            "contentful",
+            "com"
+          ],
+          "path": [
+            "spaces",
+            "{{spaceId}}",
+            "environments",
+            "{{environmentId}}",
+            "entries",
+            "{{entryId}}"
+          ]
+        },
+        "description": "Run at the specified publication stage. Credentials are stored only in private environment variables."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const product = pm.response.json();",
+              "pm.test(\"TC-005 | Status code is 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-005 | Correct product ID\", () => pm.expect(product.sys.id).to.eql(pm.environment.get(\"entryId\")));",
+              "pm.test(\"TC-005 | Correct product name\", () => pm.expect(product.fields.name).to.eql(pm.environment.get(\"expectedName\")));",
+              "pm.test(\"TC-005 | Correct product price\", () => pm.expect(product.fields.price).to.eql(Number(pm.environment.get(\"expectedPrice\"))));",
+              "pm.test(\"TC-005 | Correct product slug\", () => pm.expect(product.fields.slug).to.eql(pm.environment.get(\"expectedSlug\")));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "TC-006 A — Delivery BEFORE publish (marker absent)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{deliveryToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://cdn.contentful.com/spaces/{{spaceId}}/environments/{{environmentId}}/entries/{{entryId}}",
+          "protocol": "https",
+          "host": [
+            "cdn",
+            "contentful",
+            "com"
+          ],
+          "path": [
+            "spaces",
+            "{{spaceId}}",
+            "environments",
+            "{{environmentId}}",
+            "entries",
+            "{{entryId}}"
+          ]
+        },
+        "description": "Run at the specified publication stage. Credentials are stored only in private environment variables."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const product = pm.response.json();",
+              "const marker = pm.environment.get(\"draftMarker\");",
+              "pm.test(\"TC-006 | Delivery API returns 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-006 | Correct product ID\", () => pm.expect(product.sys.id).to.eql(pm.environment.get(\"entryId\")));",
+              "pm.test(\"TC-006 | Unpublished marker absent from Delivery\", () => pm.expect(product.fields.description).not.to.include(marker));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "TC-006 B — Preview BEFORE publish (marker present)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{previewToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://preview.contentful.com/spaces/{{spaceId}}/environments/{{environmentId}}/entries/{{entryId}}",
+          "protocol": "https",
+          "host": [
+            "preview",
+            "contentful",
+            "com"
+          ],
+          "path": [
+            "spaces",
+            "{{spaceId}}",
+            "environments",
+            "{{environmentId}}",
+            "entries",
+            "{{entryId}}"
+          ]
+        },
+        "description": "Run at the specified publication stage. Credentials are stored only in private environment variables."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const product = pm.response.json();",
+              "const marker = pm.environment.get(\"draftMarker\");",
+              "pm.test(\"TC-006 | Preview API returns 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-006 | Correct product ID\", () => pm.expect(product.sys.id).to.eql(pm.environment.get(\"entryId\")));",
+              "pm.test(\"TC-006 | Draft marker visible in Preview\", () => pm.expect(product.fields.description).to.include(marker));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    },
+    {
+      "name": "TC-006 C — Delivery AFTER publish (marker present)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{deliveryToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://cdn.contentful.com/spaces/{{spaceId}}/environments/{{environmentId}}/entries/{{entryId}}",
+          "protocol": "https",
+          "host": [
+            "cdn",
+            "contentful",
+            "com"
+          ],
+          "path": [
+            "spaces",
+            "{{spaceId}}",
+            "environments",
+            "{{environmentId}}",
+            "entries",
+            "{{entryId}}"
+          ]
+        },
+        "description": "Run at the specified publication stage. Credentials are stored only in private environment variables."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const product = pm.response.json();",
+              "pm.test(\"TC-005 | Status code is 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"TC-005 | Correct product ID\", () => pm.expect(product.sys.id).to.eql(pm.environment.get(\"entryId\")));",
+              "pm.test(\"TC-005 | Correct product name\", () => pm.expect(product.fields.name).to.eql(pm.environment.get(\"expectedName\")));",
+              "pm.test(\"TC-005 | Correct product price\", () => pm.expect(product.fields.price).to.eql(Number(pm.environment.get(\"expectedPrice\"))));",
+              "pm.test(\"TC-005 | Correct product slug\", () => pm.expect(product.fields.slug).to.eql(pm.environment.get(\"expectedSlug\")));",
+              "pm.test(\"TC-006 | Published marker visible in Delivery\", () => pm.expect(product.fields.description).to.include(pm.environment.get(\"draftMarker\")));"
+            ]
+          }
+        }
+      ],
+      "response": []
+    }
+  ]
+}
