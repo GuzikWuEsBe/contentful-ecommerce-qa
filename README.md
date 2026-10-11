@@ -32,7 +32,7 @@ After enabling the German locale and changing its `Name` to a unique value, publ
 
 | Failed publication and API diagnosis | Successful publication after correction |
 |---|---|
-| ![Network response: unique validation in de-DE](evidence/BUG-001-02-network-unique-de-DE.png) | ![Contentful published after correction](evidence/BUG-001-04-published-after-correction.png) |
+| ![Network response: unique validation in de-DE](evidence/BUG-001-02-network-unique-de-DE.webp) | ![Contentful published after correction](evidence/BUG-001-04-published-after-correction.webp) |
 
 ## API test: published versus draft
 
@@ -44,7 +44,7 @@ After enabling the German locale and changing its `Name` to a unique value, publ
 
 | Delivery API before publishing | Preview API before publishing | Delivery API after publishing |
 |---|---|---|
-| ![Delivery without marker](evidence/TC-006-02-delivery-before-publish.png) | ![Preview with marker](evidence/TC-006-03-preview-api.png) | ![Delivery with marker](evidence/TC-006-05-delivery-after-publish.png) |
+| ![Delivery without marker](evidence/TC-006-02-delivery-before-publish.webp) | ![Preview with marker](evidence/TC-006-03-preview-api.webp) | ![Delivery with marker](evidence/TC-006-05-delivery-after-publish.webp) |
 
 ## Repository contents
 

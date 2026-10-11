@@ -65,10 +65,10 @@ Content editors may spend time troubleshooting fields that already appear valid 
 
 ## Evidence
 
-1. [Generic validation message](../evidence/BUG-001-01-generic-ui-validation.png)
-2. [Network response identifying uniqueness violation in de-DE](../evidence/BUG-001-02-network-unique-de-DE.png)
-3. [German locale configured but hidden](../evidence/BUG-001-03-locale-visibility.png)
-4. [Successful publication after correction](../evidence/BUG-001-04-published-after-correction.png)
+1. [Generic validation message](../evidence/BUG-001-01-generic-ui-validation.webp)
+2. [Network response identifying uniqueness violation in de-DE](../evidence/BUG-001-02-network-unique-de-DE.webp)
+3. [German locale configured but hidden](../evidence/BUG-001-03-locale-visibility.webp)
+4. [Successful publication after correction](../evidence/BUG-001-04-published-after-correction.webp)
 
 ## Limitations
 
